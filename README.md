@@ -153,3 +153,22 @@ A local Git repository has been initialized with all source files. To link and p
 # Push the code to your GitHub repository
 & "C:\Program Files\Git\cmd\git.exe" push -u origin main
 ```
+
+---
+
+## 🌐 Enabling GitHub Pages (100% Free Hosting)
+
+This project is built with a **Dual-Mode Architecture**:
+1. **GitHub Pages Mode**: The rule-based engine, food database, and validator run natively in the browser without needing a Node server runtime.
+2. **Node.js Server Mode**: Runs with Express.js (`npm start`) providing REST API endpoints.
+
+To publish on **GitHub Pages**:
+1. Go to your GitHub repository in your browser.
+2. Click **Settings** (gear icon) > **Pages** (in the left sidebar).
+3. Under **Build and deployment** > **Source**, choose **Deploy from a branch**.
+4. Under **Branch**, select **`main`** and folder **`/ (root)`**, then click **Save**.
+5. Within 1 minute, your site will be live at:
+   ```
+   https://<YOUR_GITHUB_USERNAME>.github.io/<YOUR_REPOSITORY_NAME>/
+   ```
+
