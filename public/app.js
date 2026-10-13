@@ -220,6 +220,9 @@ async function loadSamplePlan(planId) {
       document.getElementById('coffeeCups').value = plan.dailyStats.dailyCoffeeCups ?? 1;
     }
 
+    // Refresh badge counts on tabs
+    updateTabBadges();
+
     // Trigger validation
     triggerValidation();
   } catch (err) {
@@ -261,6 +264,7 @@ function setupEventListeners() {
   document.getElementById('clearPlanBtn').addEventListener('click', () => {
     form.reset();
     document.querySelectorAll('.food-multiselect').forEach(s => setSelectedOptions(s, []));
+    updateTabBadges();
     document.getElementById('resultsContent').classList.add('d-none');
     document.getElementById('resultsPlaceholder').classList.remove('d-none');
   });
@@ -268,6 +272,77 @@ function setupEventListeners() {
   document.getElementById('printBtn').addEventListener('click', () => {
     window.print();
   });
+
+  // Setup tab navigation
+  setupMealTabs();
+
+  // Watch for food selection changes to update badges
+  document.querySelectorAll('.food-multiselect').forEach(select => {
+    select.addEventListener('change', updateTabBadges);
+  });
+  document.querySelectorAll('input[name="seasonings"]').forEach(cb => {
+    cb.addEventListener('change', updateTabBadges);
+  });
+}
+
+/**
+ * Tab Navigation Setup
+ */
+function setupMealTabs() {
+  const tabButtons = document.querySelectorAll('.meal-tab-btn');
+  const panes = document.querySelectorAll('.meal-pane');
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.dataset.tab;
+      tabButtons.forEach(b => b.classList.remove('active'));
+      panes.forEach(p => p.classList.remove('active'));
+
+      btn.classList.add('active');
+      const targetPane = document.getElementById(targetId);
+      if (targetPane) targetPane.classList.add('active');
+    });
+  });
+
+  // Next / Previous buttons within panes
+  document.querySelectorAll('.next-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const nextTabId = btn.dataset.next;
+      const targetBtn = document.querySelector(`.meal-tab-btn[data-tab="${nextTabId}"]`);
+      if (targetBtn) targetBtn.click();
+    });
+  });
+
+  document.querySelectorAll('.prev-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const prevTabId = btn.dataset.prev;
+      const targetBtn = document.querySelector(`.meal-tab-btn[data-tab="${prevTabId}"]`);
+      if (targetBtn) targetBtn.click();
+    });
+  });
+}
+
+/**
+ * Update Badges on Meal Tabs
+ */
+function updateTabBadges() {
+  const bCount = getSelectedOptions(document.getElementById('breakfastItems')).length;
+  const lCount = getSelectedOptions(document.getElementById('lunchItems')).length;
+  const dCount = getSelectedOptions(document.getElementById('dinnerItems')).length;
+  const sCount = getSelectedOptions(document.getElementById('snackItems')).length + getSelectedOptions(document.getElementById('beverageItems')).length;
+  const seasonCount = document.querySelectorAll('input[name="seasonings"]:checked').length;
+
+  const bBadge = document.getElementById('breakfastCount');
+  const lBadge = document.getElementById('lunchCount');
+  const dBadge = document.getElementById('dinnerCount');
+  const sBadge = document.getElementById('snacksCount');
+  const seasonBadge = document.getElementById('seasoningsCount');
+
+  if (bBadge) bBadge.textContent = bCount;
+  if (lBadge) lBadge.textContent = lCount;
+  if (dBadge) dBadge.textContent = dCount;
+  if (sBadge) sBadge.textContent = sCount;
+  if (seasonBadge) seasonBadge.textContent = seasonCount;
 }
 
 /**

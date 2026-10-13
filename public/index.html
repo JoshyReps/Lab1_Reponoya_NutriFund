@@ -3,37 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dietary Compliance Validation Engine | DOGH Dietary Services</title>
+  <title>NutriFund | Institutional Dietary Compliance Validation Engine</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Top Navigation Header -->
+  <!-- Top Navigation Header with Modern Gradient -->
   <header class="app-header">
     <div class="header-container">
       <div class="brand">
         <div class="brand-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
           </svg>
         </div>
         <div>
-          <h1>Dietary Compliance Validation Engine</h1>
-          <p class="subtitle">Davao Occidental General Hospital — Dietary Services & FNRI Guidelines</p>
+          <div class="brand-title-wrap">
+            <span class="brand-tag">NutriFund Engine</span>
+            <h1>Dietary Policy Compliance Validator</h1>
+          </div>
+          <p class="subtitle">Davao Occidental General Hospital (DOGH) Dietary Services &bull; FNRI Pinggang Pinoy</p>
         </div>
       </div>
       <div class="header-actions">
-        <span class="badge institution-badge">DOH Accredited Clinical Rules</span>
-        <button id="printBtn" class="btn btn-outline btn-sm">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <span class="badge badge-doh">DOH Hospital Manual Codified</span>
+        <button type="button" id="printBtn" class="btn btn-outline btn-sm">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="6 9 6 2 18 2 18 9"></polyline>
             <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
             <rect x="6" y="14" width="12" height="8"></rect>
           </svg>
-          Print Clinical Audit
+          Print Audit
         </button>
       </div>
     </div>
@@ -41,61 +44,109 @@
 
   <main class="main-content">
     
-    <!-- Dietary Policy Selector Bar -->
+    <!-- 1. Dietary Policy Prescription Selector -->
     <section class="policy-section">
       <div class="section-title-wrap">
-        <h2>1. Select Dietary Prescription / Policy</h2>
-        <span class="instruction-text">Choose the target hospital diet or combine comorbid conditions:</span>
+        <div class="step-badge">Step 1</div>
+        <div>
+          <h2>Select Dietary Prescription / Policy</h2>
+          <span class="instruction-text">Choose the target clinical hospital diet (or select multiple for comorbid patients):</span>
+        </div>
       </div>
 
       <div class="policy-grid" id="policyGrid">
-        <!-- Injected via JavaScript -->
+        <!-- Dynamically rendered via app.js -->
       </div>
 
-      <!-- Quick 1-Click Test Plan Bar -->
+      <!-- Quick 1-Click Test Plan Samples -->
       <div class="quick-test-bar">
-        <span class="quick-test-label">⚡ Quick Test Samples:</span>
+        <div class="quick-test-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          <span>Quick Test Preloaded Menus:</span>
+        </div>
         <div class="quick-test-buttons" id="quickTestButtons">
-          <!-- Injected via JavaScript -->
+          <!-- Dynamically rendered via app.js -->
         </div>
       </div>
     </section>
 
-    <!-- Main Workspace Split: Builder vs Audit Results -->
+    <!-- Main Balanced Workspace Grid -->
     <div class="workspace-grid">
 
-      <!-- Left Column: Meal Plan Builder -->
+      <!-- Left Column: Compact Tabbed Meal Plan Builder -->
       <section class="builder-card">
         <div class="builder-header">
-          <h2>2. Meal Plan Builder</h2>
-          <button id="clearPlanBtn" class="btn btn-text btn-sm">Reset Form</button>
+          <div class="builder-title-group">
+            <div class="step-badge step-badge-purple">Step 2</div>
+            <div>
+              <h2>Meal Plan Builder</h2>
+              <span class="text-sub">Configure meals with portion limits & seasonings</span>
+            </div>
+          </div>
+          <button type="button" id="clearPlanBtn" class="btn btn-ghost btn-sm" title="Clear all inputs">Reset Form</button>
         </div>
 
         <form id="mealPlanForm">
           <!-- Patient Details -->
-          <div class="form-row">
-            <div class="form-group flex-1">
-              <label for="patientName">Patient Name / Hospital Bed ID</label>
-              <input type="text" id="patientName" class="form-control" placeholder="e.g. Juan Dela Cruz (Ward 3, Bed 12)" value="Juan Dela Cruz">
-            </div>
+          <div class="patient-bar">
+            <label for="patientName" class="patient-label">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              Patient Name / Bed ID:
+            </label>
+            <input type="text" id="patientName" class="form-control form-control-compact" placeholder="e.g. Juan Dela Cruz (Ward 3, Bed 12)" value="Juan Dela Cruz">
           </div>
 
-          <!-- Structured Meals Accordion -->
-          <div class="meals-accordion">
-            
-            <!-- Breakfast -->
-            <div class="meal-block">
-              <div class="meal-block-header">
-                <span class="meal-title">🌅 Breakfast (Pamahaw)</span>
-                <span class="meal-meta" id="breakfastCount">0 items</span>
+          <!-- Balanced Tabbed Navigation for Meal Times -->
+          <div class="meal-tabs-nav" id="mealTabsNav">
+            <button type="button" class="meal-tab-btn active" data-tab="tab-breakfast">
+              <span class="tab-emoji">🌅</span>
+              <span class="tab-name">Breakfast</span>
+              <span class="tab-count-pill" id="breakfastCount">0</span>
+            </button>
+            <button type="button" class="meal-tab-btn" data-tab="tab-lunch">
+              <span class="tab-emoji">☀️</span>
+              <span class="tab-name">Lunch</span>
+              <span class="tab-count-pill" id="lunchCount">0</span>
+            </button>
+            <button type="button" class="meal-tab-btn" data-tab="tab-dinner">
+              <span class="tab-emoji">🌙</span>
+              <span class="tab-name">Dinner</span>
+              <span class="tab-count-pill" id="dinnerCount">0</span>
+            </button>
+            <button type="button" class="meal-tab-btn" data-tab="tab-snacks">
+              <span class="tab-emoji">🥪</span>
+              <span class="tab-name">Snacks & Drinks</span>
+              <span class="tab-count-pill" id="snacksCount">0</span>
+            </button>
+            <button type="button" class="meal-tab-btn" data-tab="tab-seasonings">
+              <span class="tab-emoji">🧂</span>
+              <span class="tab-name">Seasonings & Lab</span>
+              <span class="tab-count-pill" id="seasoningsCount">1</span>
+            </button>
+          </div>
+
+          <!-- Tab Content Panes -->
+          <div class="meal-panes-wrapper">
+
+            <!-- Tab 1: Breakfast -->
+            <div class="meal-pane active" id="tab-breakfast">
+              <div class="pane-header">
+                <span class="pane-title">🌅 Breakfast Menu (Pamahaw)</span>
+                <span class="pane-tip">Select ingredients and cooking method</span>
               </div>
-              <div class="meal-block-body">
-                <div class="form-group">
-                  <label>Select Ingredients / Foods:</label>
-                  <select id="breakfastItems" class="form-control food-multiselect" multiple size="4">
-                    <!-- Options populated from API -->
-                  </select>
-                </div>
+              <div class="form-group">
+                <label>Select Ingredients / Foods:</label>
+                <select id="breakfastItems" class="form-control food-multiselect" multiple size="4">
+                  <!-- Populated from API/Database -->
+                </select>
+                <span class="field-hint">Hold Ctrl (or Cmd) to select multiple items</span>
+              </div>
+              <div class="form-row-2">
                 <div class="form-group">
                   <label>Cooking Method:</label>
                   <select id="breakfastMethod" class="form-control">
@@ -110,25 +161,29 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label>Custom Item or Dish (comma separated):</label>
-                  <input type="text" id="breakfastCustom" class="form-control" placeholder="e.g., boiled saba, scrambled egg">
+                  <label>Custom Dish / Ingredients:</label>
+                  <input type="text" id="breakfastCustom" class="form-control" placeholder="e.g. boiled saba, scrambled egg">
                 </div>
+              </div>
+              <div class="pane-footer-nav">
+                <button type="button" class="btn btn-secondary btn-sm next-tab-btn" data-next="tab-lunch">Go to Lunch &rarr;</button>
               </div>
             </div>
 
-            <!-- Lunch -->
-            <div class="meal-block">
-              <div class="meal-block-header">
-                <span class="meal-title">☀️ Lunch (Paniudto)</span>
-                <span class="meal-meta" id="lunchCount">0 items</span>
+            <!-- Tab 2: Lunch -->
+            <div class="meal-pane" id="tab-lunch">
+              <div class="pane-header">
+                <span class="pane-title">☀️ Lunch Menu (Paniudto)</span>
+                <span class="pane-tip">Midday meal selections & broths</span>
               </div>
-              <div class="meal-block-body">
-                <div class="form-group">
-                  <label>Select Ingredients / Foods:</label>
-                  <select id="lunchItems" class="form-control food-multiselect" multiple size="4">
-                    <!-- Options populated from API -->
-                  </select>
-                </div>
+              <div class="form-group">
+                <label>Select Ingredients / Foods:</label>
+                <select id="lunchItems" class="form-control food-multiselect" multiple size="4">
+                  <!-- Populated from API/Database -->
+                </select>
+                <span class="field-hint">Hold Ctrl (or Cmd) to select multiple items</span>
+              </div>
+              <div class="form-row-2">
                 <div class="form-group">
                   <label>Cooking Method:</label>
                   <select id="lunchMethod" class="form-control">
@@ -143,25 +198,30 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label>Custom Item or Dish:</label>
-                  <input type="text" id="lunchCustom" class="form-control" placeholder="e.g., lechon kawali, tinolang manok">
+                  <label>Custom Dish / Ingredients:</label>
+                  <input type="text" id="lunchCustom" class="form-control" placeholder="e.g. lechon kawali, tinolang manok">
                 </div>
+              </div>
+              <div class="pane-footer-nav">
+                <button type="button" class="btn btn-secondary btn-sm prev-tab-btn" data-prev="tab-breakfast">&larr; Back to Breakfast</button>
+                <button type="button" class="btn btn-secondary btn-sm next-tab-btn" data-next="tab-dinner">Go to Dinner &rarr;</button>
               </div>
             </div>
 
-            <!-- Dinner -->
-            <div class="meal-block">
-              <div class="meal-block-header">
-                <span class="meal-title">🌙 Dinner (Panihapon)</span>
-                <span class="meal-meta" id="dinnerCount">0 items</span>
+            <!-- Tab 3: Dinner -->
+            <div class="meal-pane" id="tab-dinner">
+              <div class="pane-header">
+                <span class="pane-title">🌙 Dinner Menu (Panihapon)</span>
+                <span class="pane-tip">Evening meal and soup choices</span>
               </div>
-              <div class="meal-block-body">
-                <div class="form-group">
-                  <label>Select Ingredients / Foods:</label>
-                  <select id="dinnerItems" class="form-control food-multiselect" multiple size="4">
-                    <!-- Options populated from API -->
-                  </select>
-                </div>
+              <div class="form-group">
+                <label>Select Ingredients / Foods:</label>
+                <select id="dinnerItems" class="form-control food-multiselect" multiple size="4">
+                  <!-- Populated from API/Database -->
+                </select>
+                <span class="field-hint">Hold Ctrl (or Cmd) to select multiple items</span>
+              </div>
+              <div class="form-row-2">
                 <div class="form-group">
                   <label>Cooking Method:</label>
                   <select id="dinnerMethod" class="form-control">
@@ -176,99 +236,116 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label>Custom Item or Dish:</label>
-                  <input type="text" id="dinnerCustom" class="form-control" placeholder="e.g., steamed fish, ginataang kalabasa">
+                  <label>Custom Dish / Ingredients:</label>
+                  <input type="text" id="dinnerCustom" class="form-control" placeholder="e.g. steamed fish, ginataang kalabasa">
                 </div>
+              </div>
+              <div class="pane-footer-nav">
+                <button type="button" class="btn btn-secondary btn-sm prev-tab-btn" data-prev="tab-lunch">&larr; Back to Lunch</button>
+                <button type="button" class="btn btn-secondary btn-sm next-tab-btn" data-next="tab-snacks">Go to Snacks &rarr;</button>
               </div>
             </div>
 
-            <!-- Snacks & Desserts -->
-            <div class="meal-block">
-              <div class="meal-block-header">
-                <span class="meal-title">🥪 Snacks & Desserts (Panghimagas)</span>
+            <!-- Tab 4: Snacks & Beverages -->
+            <div class="meal-pane" id="tab-snacks">
+              <div class="pane-header">
+                <span class="pane-title">🥪 Snacks, Desserts & Beverages</span>
+                <span class="pane-tip">Merienda and hydration items</span>
               </div>
-              <div class="meal-block-body">
+              <div class="form-row-2">
                 <div class="form-group">
-                  <label>Select Items:</label>
-                  <select id="snackItems" class="form-control food-multiselect" multiple size="3">
-                    <!-- Options populated from API -->
+                  <label>Snacks & Desserts (Panghimagas):</label>
+                  <select id="snackItems" class="form-control food-multiselect" multiple size="4">
+                    <!-- Populated from API/Database -->
                   </select>
+                  <input type="text" id="snackCustom" class="form-control mt-2" placeholder="Custom snack: e.g. fruit salad, chicharon">
                 </div>
                 <div class="form-group">
-                  <label>Custom Snacks:</label>
-                  <input type="text" id="snackCustom" class="form-control" placeholder="e.g., chicharon, fruit salad, biscuits">
-                </div>
-              </div>
-            </div>
-
-            <!-- Beverages -->
-            <div class="meal-block">
-              <div class="meal-block-header">
-                <span class="meal-title">🥤 Beverages (Ilimnon)</span>
-              </div>
-              <div class="meal-block-body">
-                <div class="form-group">
-                  <label>Select Beverages:</label>
-                  <select id="beverageItems" class="form-control food-multiselect" multiple size="3">
-                    <!-- Options populated from API -->
+                  <label>Beverages & Liquids (Ilimnon):</label>
+                  <select id="beverageItems" class="form-control food-multiselect" multiple size="4">
+                    <!-- Populated from API/Database -->
                   </select>
                 </div>
               </div>
+              <div class="pane-footer-nav">
+                <button type="button" class="btn btn-secondary btn-sm prev-tab-btn" data-prev="tab-dinner">&larr; Back to Dinner</button>
+                <button type="button" class="btn btn-secondary btn-sm next-tab-btn" data-next="tab-seasonings">Go to Seasonings &rarr;</button>
+              </div>
             </div>
 
-            <!-- Seasonings & Condiments Checklist -->
-            <div class="meal-block">
-              <div class="meal-block-header">
-                <span class="meal-title">🧂 Seasonings & Sauces Used (Panimpla)</span>
+            <!-- Tab 5: Seasonings & Trackers -->
+            <div class="meal-pane" id="tab-seasonings">
+              <div class="pane-header">
+                <span class="pane-title">🧂 Seasonings & Clinical Intake Trackers</span>
+                <span class="pane-tip">Audit sodium condiments, salt substitutes & weekly limits</span>
               </div>
-              <div class="meal-block-body">
-                <div class="checkbox-grid" id="seasoningCheckboxes">
-                  <label class="check-item"><input type="checkbox" name="seasonings" value="garlic_onion_ginger" checked> Garlic, Onion, Ginger (Ahos, Bombay, Luy-a)</label>
-                  <label class="check-item"><input type="checkbox" name="seasonings" value="soy_sauce_patis"> Soy Sauce (Toyo) / Fish Sauce (Patis)</label>
-                  <label class="check-item"><input type="checkbox" name="seasonings" value="bagoong_shrimp_paste"> Bagoong / Ginamos / Shrimp Paste</label>
-                  <label class="check-item"><input type="checkbox" name="seasonings" value="msg_magic_sarap"> MSG / Vetsin / Magic Sarap / Broth Cubes</label>
-                  <label class="check-item"><input type="checkbox" name="seasonings" value="catsup_ketchup"> Ketchup / Tomato Sauce</label>
-                  <label class="check-item"><input type="checkbox" name="seasonings" value="salt_substitute"> Salt Substitute (Potassium Chloride)</label>
+              
+              <div class="seasonings-box">
+                <span class="box-title">Seasonings & Sauces Used (Panimpla):</span>
+                <div class="seasoning-chips-grid" id="seasoningCheckboxes">
+                  <label class="chip-item">
+                    <input type="checkbox" name="seasonings" value="garlic_onion_ginger" checked>
+                    <span class="chip-content">🌿 Garlic, Onion, Ginger (Ahos, Bombay, Luy-a)</span>
+                  </label>
+                  <label class="chip-item">
+                    <input type="checkbox" name="seasonings" value="soy_sauce_patis">
+                    <span class="chip-content">🥢 Soy Sauce (Toyo) / Fish Sauce (Patis)</span>
+                  </label>
+                  <label class="chip-item">
+                    <input type="checkbox" name="seasonings" value="bagoong_shrimp_paste">
+                    <span class="chip-content">🦐 Bagoong / Ginamos / Shrimp Paste</span>
+                  </label>
+                  <label class="chip-item">
+                    <input type="checkbox" name="seasonings" value="msg_magic_sarap">
+                    <span class="chip-content">🧂 MSG / Vetsin / Magic Sarap / Cubes</span>
+                  </label>
+                  <label class="chip-item">
+                    <input type="checkbox" name="seasonings" value="catsup_ketchup">
+                    <span class="chip-content">🍅 Ketchup / Tomato Sauce</span>
+                  </label>
+                  <label class="chip-item">
+                    <input type="checkbox" name="seasonings" value="salt_substitute">
+                    <span class="chip-content">⚠️ Salt Substitute (Potassium Chloride)</span>
+                  </label>
                 </div>
               </div>
-            </div>
 
-            <!-- Quantitative Clinical Trackers -->
-            <div class="meal-block">
-              <div class="meal-block-header">
-                <span class="meal-title">📊 Clinical Frequency & Intake Trackers</span>
-              </div>
-              <div class="meal-block-body">
+              <div class="trackers-card">
+                <span class="box-title">Clinical Frequency & Intake Quotas:</span>
                 <div class="trackers-grid">
                   <div class="tracker-item">
-                    <label for="waterLiters">Water Intake (Liters/day):</label>
+                    <label for="waterLiters">💧 Water (Liters/day):</label>
                     <input type="number" id="waterLiters" class="form-control" step="0.1" min="0" max="10" value="2.5">
-                    <span class="tracker-hint">Target: 2-3 Liters (DOGH Low Purine)</span>
+                    <span class="tracker-hint">Goal: 2-3L (Low Purine)</span>
                   </div>
                   <div class="tracker-item">
-                    <label for="weeklyEggs">Weekly Whole Eggs:</label>
+                    <label for="weeklyEggs">🥚 Weekly Eggs:</label>
                     <input type="number" id="weeklyEggs" class="form-control" min="0" max="30" value="2">
-                    <span class="tracker-hint">Limit: Max 3/week (DOGH Low Salt)</span>
+                    <span class="tracker-hint">Max 3/wk (Low Salt)</span>
                   </div>
                   <div class="tracker-item">
-                    <label for="meatServings">Daily Meat Servings:</label>
+                    <label for="meatServings">🥩 Daily Meats:</label>
                     <input type="number" id="meatServings" class="form-control" min="0" max="15" value="2">
-                    <span class="tracker-hint">Limit: Max 3/day (DOGH Low Purine)</span>
+                    <span class="tracker-hint">Max 3/day (Low Purine)</span>
                   </div>
                   <div class="tracker-item">
-                    <label for="coffeeCups">Coffee / Tea Cups/day:</label>
+                    <label for="coffeeCups">☕ Coffee/Tea (Cups):</label>
                     <input type="number" id="coffeeCups" class="form-control" min="0" max="10" value="1">
-                    <span class="tracker-hint">Limit: Max 2 cups/day (DOGH Low Purine)</span>
+                    <span class="tracker-hint">Max 2 cups/day</span>
                   </div>
                 </div>
+              </div>
+
+              <div class="pane-footer-nav">
+                <button type="button" class="btn btn-secondary btn-sm prev-tab-btn" data-prev="tab-snacks">&larr; Back to Snacks</button>
               </div>
             </div>
 
           </div>
 
-          <!-- Submit Validation Button -->
-          <div class="submit-wrap">
-            <button type="submit" id="validateBtn" class="btn btn-primary btn-block btn-lg">
+          <!-- Bottom Action Bar -->
+          <div class="submit-action-bar">
+            <button type="submit" id="validateBtn" class="btn btn-validate btn-block">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
@@ -278,26 +355,36 @@
         </form>
       </section>
 
-      <!-- Right Column: Audit Results & Compliance Dashboard -->
+      <!-- Right Column: Balanced Clinical Compliance Audit Report -->
       <section class="results-card" id="resultsSection">
         <div class="results-header">
-          <h2>3. Clinical Compliance Audit Report</h2>
-          <span class="timestamp" id="auditTimestamp">Awaiting evaluation...</span>
+          <div class="builder-title-group">
+            <div class="step-badge step-badge-green">Step 3</div>
+            <div>
+              <h2>Clinical Compliance Audit</h2>
+              <span class="text-sub" id="auditTimestamp">Institutional Policy Evaluation Result</span>
+            </div>
+          </div>
         </div>
 
+        <!-- Initial Placeholder State -->
         <div id="resultsPlaceholder" class="placeholder-state">
-          <div class="placeholder-icon">📋</div>
-          <h3>No Meal Plan Validated Yet</h3>
-          <p>Select a dietary policy on top, customize the meals, and click <strong>"Run Policy Compliance Validation"</strong> or test a sample plan to view institutional compliance findings.</p>
+          <div class="placeholder-icon-animated">📋</div>
+          <h3>Awaiting Validation Run</h3>
+          <p>Choose a dietary policy on top, customize or keep default meal choices, and click <strong>"Run Policy Compliance Validation"</strong> to audit the plan.</p>
+          <div class="placeholder-tip">💡 Tip: Try clicking any sample menu on top for instant 1-click evaluation!</div>
         </div>
 
+        <!-- Live Results Dashboard Content -->
         <div id="resultsContent" class="results-content d-none">
           
-          <!-- Score Gauge & Status Banner -->
+          <!-- Score Banner & Status Card -->
           <div class="score-banner" id="scoreBanner">
-            <div class="score-circle">
-              <span class="score-number" id="scoreNumber">100%</span>
-              <span class="score-caption">Compliance</span>
+            <div class="score-circle-wrapper">
+              <div class="score-circle">
+                <span class="score-number" id="scoreNumber">100%</span>
+                <span class="score-caption">Score</span>
+              </div>
             </div>
             <div class="score-info">
               <div class="status-badge" id="statusBadge">COMPLIANT</div>
@@ -309,7 +396,7 @@
           <!-- Section: Critical Violations -->
           <div class="audit-group" id="violationsGroup">
             <h4 class="audit-group-title text-danger">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="15" y1="9" x2="9" y2="15"></line>
                 <line x1="9" y1="9" x2="15" y2="15"></line>
@@ -322,7 +409,7 @@
           <!-- Section: Warnings & Cautions -->
           <div class="audit-group" id="warningsGroup">
             <h4 class="audit-group-title text-warning">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                 <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
                 <line x1="12" y1="9" x2="12" y2="13"></line>
                 <line x1="12" y1="17" x2="12.01" y2="17"></line>
@@ -335,7 +422,7 @@
           <!-- Section: Recommended Healthy Substitutions -->
           <div class="audit-group" id="substitutionsGroup">
             <h4 class="audit-group-title text-primary">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                 <polyline points="23 4 23 10 17 10"></polyline>
                 <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
               </svg>
@@ -358,10 +445,10 @@
           <!-- Section: Compliant Items Highlights -->
           <div class="audit-group" id="compliantGroup">
             <h4 class="audit-group-title text-success">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
-              Compliant Food Choices
+              Approved Compliant Food Choices
             </h4>
             <div class="pill-tags-wrap" id="compliantPills"></div>
           </div>
@@ -369,7 +456,7 @@
           <!-- Section: Official Hospital Guidelines (Mga Pahimangno) -->
           <div class="audit-group" id="guidelinesGroup">
             <h4 class="audit-group-title text-secondary">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                 <polyline points="14 2 14 8 20 8"></polyline>
                 <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -388,7 +475,10 @@
   </main>
 
   <footer class="app-footer">
-    <p>Davao Occidental General Hospital Dietary Services | Codified National & Institutional Meal Validation Engine</p>
+    <div class="footer-inner">
+      <p><strong>Davao Occidental General Hospital</strong> Dietary Services &bull; Lacaron, Malita, Davao Occidental</p>
+      <p class="footer-sub">Codified National Dietary Guidelines &bull; Dual-Mode Engine (Node.js & GitHub Pages Compatible)</p>
+    </div>
   </footer>
 
   <!-- Pure Client-Side Engine for GitHub Pages & Offline Support -->

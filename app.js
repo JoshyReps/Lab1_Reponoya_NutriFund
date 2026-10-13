@@ -1,6 +1,6 @@
 /**
  * Client-Side Application Logic (Dual-Mode: Static GitHub Pages & Express API)
- * NutriFund Dietary Compliance Validation Engine
+ * Dietary Compliance Validation Engine
  */
 
 let allPolicies = [];
@@ -12,42 +12,11 @@ let selectedPolicies = ['low-salt']; // Default selected policy
 const isStaticMode = (typeof window.DietaryValidator !== 'undefined');
 
 document.addEventListener('DOMContentLoaded', async () => {
-  setupTabNavigation();
   await loadInitialData();
   setupEventListeners();
   // Auto-run first sample plan to present immediate visual audit
   loadSamplePlan('low-salt-compliant');
 });
-
-/**
- * Setup Segmented Meal Tabs Navigation
- */
-function setupTabNavigation() {
-  const tabBtns = document.querySelectorAll('.tab-btn');
-  tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const targetId = btn.dataset.tab;
-      switchTab(targetId);
-    });
-  });
-
-  // Setup Next Tab helper buttons
-  document.querySelectorAll('.next-tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const nextId = btn.dataset.next;
-      if (nextId) switchTab(nextId);
-    });
-  });
-}
-
-function switchTab(targetId) {
-  document.querySelectorAll('.tab-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.tab === targetId);
-  });
-  document.querySelectorAll('.tab-pane').forEach(p => {
-    p.classList.toggle('active', p.id === targetId);
-  });
-}
 
 /**
  * Fetch or Load Policies, Foods, and Sample Plans
@@ -75,14 +44,13 @@ async function loadInitialData() {
     renderPolicyCards();
     renderFoodDropdowns();
     renderQuickTestButtons();
-    updateTabBadgesAndChips();
   } catch (error) {
     console.error('Failed to load initial data:', error);
   }
 }
 
 /**
- * Render Policy Selection Cards with Color Accents
+ * Render Policy Selection Cards
  */
 function renderPolicyCards() {
   const container = document.getElementById('policyGrid');
@@ -167,82 +135,6 @@ function renderFoodDropdowns() {
       opt.textContent = `${food.name} (${food.cebuano})`;
       el.appendChild(opt);
     });
-
-    el.addEventListener('change', () => updateTabBadgesAndChips());
-  });
-
-  // Track inputs for badges
-  ['breakfastCustom', 'lunchCustom', 'dinnerCustom', 'snackCustom'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener('input', () => updateTabBadgesAndChips());
-  });
-}
-
-/**
- * Update live badges and summary chips
- */
-function updateTabBadgesAndChips() {
-  const getCount = (selectId, customId) => {
-    const select = document.getElementById(selectId);
-    const custom = document.getElementById(customId);
-    let count = select ? select.selectedOptions.length : 0;
-    if (custom && custom.value.trim()) {
-      count += custom.value.split(',').filter(s => s.trim().length > 0).length;
-    }
-    return count;
-  };
-
-  const bCount = getCount('breakfastItems', 'breakfastCustom');
-  const lCount = getCount('lunchItems', 'lunchCustom');
-  const dCount = getCount('dinnerItems', 'dinnerCustom');
-  const sCount = getCount('snackItems', 'snackCustom') + (document.getElementById('beverageItems')?.selectedOptions.length || 0);
-
-  const setBadge = (id, count) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = count;
-  };
-
-  setBadge('badgeBreakfast', bCount);
-  setBadge('badgeLunch', lCount);
-  setBadge('badgeDinner', dCount);
-  setBadge('badgeSnacks', sCount);
-
-  // Render chips
-  const chipsContainer = document.getElementById('summaryChips');
-  if (chipsContainer) {
-    chipsContainer.innerHTML = '';
-    const allSelected = [
-      ...getSelectedFoodNames('breakfastItems'),
-      ...getSelectedFoodNames('lunchItems'),
-      ...getSelectedFoodNames('dinnerItems'),
-      ...getSelectedFoodNames('snackItems'),
-      ...getSelectedFoodNames('beverageItems')
-    ];
-
-    if (allSelected.length === 0) {
-      chipsContainer.innerHTML = '<span style="font-size:0.7rem; color:#94a3b8; font-style:italic;">No items selected yet</span>';
-    } else {
-      allSelected.slice(0, 7).forEach(name => {
-        const chip = document.createElement('span');
-        chip.className = 'summary-chip';
-        chip.textContent = name;
-        chipsContainer.appendChild(chip);
-      });
-      if (allSelected.length > 7) {
-        const more = document.createElement('span');
-        more.className = 'summary-chip';
-        more.textContent = `+${allSelected.length - 7} more`;
-        chipsContainer.appendChild(more);
-      }
-    }
-  }
-}
-
-function getSelectedFoodNames(selectId) {
-  const select = document.getElementById(selectId);
-  if (!select) return [];
-  return Array.from(select.selectedOptions).map(opt => {
-    return opt.text.split('(')[0].trim();
   });
 }
 
@@ -254,14 +146,14 @@ function renderQuickTestButtons() {
   container.innerHTML = '';
 
   const testCases = [
-    { id: 'low-salt-compliant', label: '✓ Low Salt (Pass)', type: 'pass' },
-    { id: 'low-salt-violation', label: '✕ Low Salt (Violation)', type: 'fail' },
-    { id: 'low-fat-compliant', label: '✓ Low Fat (Pass)', type: 'pass' },
-    { id: 'low-fat-violation', label: '✕ Low Fat (Violation)', type: 'fail' },
-    { id: 'low-purine-compliant', label: '✓ Low Purine (Pass)', type: 'pass' },
-    { id: 'low-purine-violation', label: '✕ Low Purine (Violation)', type: 'fail' },
-    { id: 'potassium-restricted-compliant', label: '✓ Potassium (Pass)', type: 'pass' },
-    { id: 'potassium-restricted-violation', label: '✕ Potassium (Violation)', type: 'fail' }
+    { id: 'low-salt-compliant', label: '✓ Low Salt (Compliant)', type: 'pass' },
+    { id: 'low-salt-violation', label: '✗ Low Salt (Violations)', type: 'fail' },
+    { id: 'low-fat-compliant', label: '✓ Low Fat (Compliant)', type: 'pass' },
+    { id: 'low-fat-violation', label: '✗ Low Fat (Violations)', type: 'fail' },
+    { id: 'low-purine-compliant', label: '✓ Low Purine (Compliant)', type: 'pass' },
+    { id: 'low-purine-violation', label: '✗ Low Purine (Violations)', type: 'fail' },
+    { id: 'potassium-restricted-compliant', label: '✓ Potassium Restricted (Compliant)', type: 'pass' },
+    { id: 'potassium-restricted-violation', label: '✗ Potassium Restricted (Violations)', type: 'fail' }
   ];
 
   testCases.forEach(tc => {
@@ -328,11 +220,8 @@ async function loadSamplePlan(planId) {
       document.getElementById('coffeeCups').value = plan.dailyStats.dailyCoffeeCups ?? 1;
     }
 
-    // Update badges
-    updateTabBadgesAndChips();
-
-    // Switch to first tab for clean focus
-    switchTab('tab-breakfast');
+    // Refresh badge counts on tabs
+    updateTabBadges();
 
     // Trigger validation
     triggerValidation();
@@ -375,7 +264,7 @@ function setupEventListeners() {
   document.getElementById('clearPlanBtn').addEventListener('click', () => {
     form.reset();
     document.querySelectorAll('.food-multiselect').forEach(s => setSelectedOptions(s, []));
-    updateTabBadgesAndChips();
+    updateTabBadges();
     document.getElementById('resultsContent').classList.add('d-none');
     document.getElementById('resultsPlaceholder').classList.remove('d-none');
   });
@@ -383,6 +272,77 @@ function setupEventListeners() {
   document.getElementById('printBtn').addEventListener('click', () => {
     window.print();
   });
+
+  // Setup tab navigation
+  setupMealTabs();
+
+  // Watch for food selection changes to update badges
+  document.querySelectorAll('.food-multiselect').forEach(select => {
+    select.addEventListener('change', updateTabBadges);
+  });
+  document.querySelectorAll('input[name="seasonings"]').forEach(cb => {
+    cb.addEventListener('change', updateTabBadges);
+  });
+}
+
+/**
+ * Tab Navigation Setup
+ */
+function setupMealTabs() {
+  const tabButtons = document.querySelectorAll('.meal-tab-btn');
+  const panes = document.querySelectorAll('.meal-pane');
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.dataset.tab;
+      tabButtons.forEach(b => b.classList.remove('active'));
+      panes.forEach(p => p.classList.remove('active'));
+
+      btn.classList.add('active');
+      const targetPane = document.getElementById(targetId);
+      if (targetPane) targetPane.classList.add('active');
+    });
+  });
+
+  // Next / Previous buttons within panes
+  document.querySelectorAll('.next-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const nextTabId = btn.dataset.next;
+      const targetBtn = document.querySelector(`.meal-tab-btn[data-tab="${nextTabId}"]`);
+      if (targetBtn) targetBtn.click();
+    });
+  });
+
+  document.querySelectorAll('.prev-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const prevTabId = btn.dataset.prev;
+      const targetBtn = document.querySelector(`.meal-tab-btn[data-tab="${prevTabId}"]`);
+      if (targetBtn) targetBtn.click();
+    });
+  });
+}
+
+/**
+ * Update Badges on Meal Tabs
+ */
+function updateTabBadges() {
+  const bCount = getSelectedOptions(document.getElementById('breakfastItems')).length;
+  const lCount = getSelectedOptions(document.getElementById('lunchItems')).length;
+  const dCount = getSelectedOptions(document.getElementById('dinnerItems')).length;
+  const sCount = getSelectedOptions(document.getElementById('snackItems')).length + getSelectedOptions(document.getElementById('beverageItems')).length;
+  const seasonCount = document.querySelectorAll('input[name="seasonings"]:checked').length;
+
+  const bBadge = document.getElementById('breakfastCount');
+  const lBadge = document.getElementById('lunchCount');
+  const dBadge = document.getElementById('dinnerCount');
+  const sBadge = document.getElementById('snacksCount');
+  const seasonBadge = document.getElementById('seasoningsCount');
+
+  if (bBadge) bBadge.textContent = bCount;
+  if (lBadge) lBadge.textContent = lCount;
+  if (dBadge) dBadge.textContent = dCount;
+  if (sBadge) sBadge.textContent = sCount;
+  if (seasonBadge) seasonBadge.textContent = seasonCount;
 }
 
 /**
