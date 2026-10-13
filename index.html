@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dietary Compliance Validation Engine | DOGH Dietary Services</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Dietary Compliance Validation Engine</h1>
+          <p class="subtitle">Davao Occidental General Hospital — Dietary Services & FNRI Guidelines</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span class="badge institution-badge">DOH Accredited Clinical Rules</span>
+        <button id="printBtn" class="btn btn-outline btn-sm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          Print Clinical Audit
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    
+    <!-- Dietary Policy Selector Bar -->
+    <section class="policy-section">
+      <div class="section-title-wrap">
+        <h2>1. Select Dietary Prescription / Policy</h2>
+        <span class="instruction-text">Choose the target hospital diet or combine comorbid conditions:</span>
+      </div>
+
+      <div class="policy-grid" id="policyGrid">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Quick 1-Click Test Plan Bar -->
+      <div class="quick-test-bar">
+        <span class="quick-test-label">⚡ Quick Test Samples:</span>
+        <div class="quick-test-buttons" id="quickTestButtons">
+          <!-- Injected via JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Workspace Split: Builder vs Audit Results -->
+    <div class="workspace-grid">
+
+      <!-- Left Column: Meal Plan Builder -->
+      <section class="builder-card">
+        <div class="builder-header">
+          <h2>2. Meal Plan Builder</h2>
+          <button id="clearPlanBtn" class="btn btn-text btn-sm">Reset Form</button>
+        </div>
+
+        <form id="mealPlanForm">
+          <!-- Patient Details -->
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="patientName">Patient Name / Hospital Bed ID</label>
+              <input type="text" id="patientName" class="form-control" placeholder="e.g. Juan Dela Cruz (Ward 3, Bed 12)" value="Juan Dela Cruz">
+            </div>
+          </div>
+
+          <!-- Structured Meals Accordion -->
+          <div class="meals-accordion">
+            
+            <!-- Breakfast -->
+            <div class="meal-block">
+              <div class="meal-block-header">
+                <span class="meal-title">🌅 Breakfast (Pamahaw)</span>
+                <span class="meal-meta" id="breakfastCount">0 items</span>
+              </div>
+              <div class="meal-block-body">
+                <div class="form-group">
+                  <label>Select Ingredients / Foods:</label>
+                  <select id="breakfastItems" class="form-control food-multiselect" multiple size="4">
+                    <!-- Options populated from API -->
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Cooking Method:</label>
+                  <select id="breakfastMethod" class="form-control">
+                    <option value="boiled">Boiled / Laga / Tinola (Oil-free)</option>
+                    <option value="steamed">Steamed / Pinaisan</option>
+                    <option value="grilled">Sinugba / Grilled (No oil)</option>
+                    <option value="baked">Ge-oven / Baked</option>
+                    <option value="paksiw">Paksiw / Inon-onan</option>
+                    <option value="pan-fried">Pan-Fried (With cooking oil)</option>
+                    <option value="deep-fried">Deep-Fried / Crispy Fried</option>
+                    <option value="ginataan">Ginataan (Cooked in coconut milk)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Custom Item or Dish (comma separated):</label>
+                  <input type="text" id="breakfastCustom" class="form-control" placeholder="e.g., boiled saba, scrambled egg">
+                </div>
+              </div>
+            </div>
+
+            <!-- Lunch -->
+            <div class="meal-block">
+              <div class="meal-block-header">
+                <span class="meal-title">☀️ Lunch (Paniudto)</span>
+                <span class="meal-meta" id="lunchCount">0 items</span>
+              </div>
+              <div class="meal-block-body">
+                <div class="form-group">
+                  <label>Select Ingredients / Foods:</label>
+                  <select id="lunchItems" class="form-control food-multiselect" multiple size="4">
+                    <!-- Options populated from API -->
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Cooking Method:</label>
+                  <select id="lunchMethod" class="form-control">
+                    <option value="steamed">Steamed / Pinaisan</option>
+                    <option value="boiled">Boiled / Laga / Tinola (Oil-free)</option>
+                    <option value="grilled">Sinugba / Grilled (No oil)</option>
+                    <option value="baked">Ge-oven / Baked</option>
+                    <option value="paksiw">Paksiw / Inon-onan</option>
+                    <option value="pan-fried">Pan-Fried (With cooking oil)</option>
+                    <option value="deep-fried">Deep-Fried / Crispy Fried</option>
+                    <option value="ginataan">Ginataan (Cooked in coconut milk)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Custom Item or Dish:</label>
+                  <input type="text" id="lunchCustom" class="form-control" placeholder="e.g., lechon kawali, tinolang manok">
+                </div>
+              </div>
+            </div>
+
+            <!-- Dinner -->
+            <div class="meal-block">
+              <div class="meal-block-header">
+                <span class="meal-title">🌙 Dinner (Panihapon)</span>
+                <span class="meal-meta" id="dinnerCount">0 items</span>
+              </div>
+              <div class="meal-block-body">
+                <div class="form-group">
+                  <label>Select Ingredients / Foods:</label>
+                  <select id="dinnerItems" class="form-control food-multiselect" multiple size="4">
+                    <!-- Options populated from API -->
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Cooking Method:</label>
+                  <select id="dinnerMethod" class="form-control">
+                    <option value="boiled">Boiled / Laga / Tinola (Oil-free)</option>
+                    <option value="steamed">Steamed / Pinaisan</option>
+                    <option value="grilled">Sinugba / Grilled (No oil)</option>
+                    <option value="baked">Ge-oven / Baked</option>
+                    <option value="paksiw">Paksiw / Inon-onan</option>
+                    <option value="pan-fried">Pan-Fried (With cooking oil)</option>
+                    <option value="deep-fried">Deep-Fried / Crispy Fried</option>
+                    <option value="ginataan">Ginataan (Cooked in coconut milk)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Custom Item or Dish:</label>
+                  <input type="text" id="dinnerCustom" class="form-control" placeholder="e.g., steamed fish, ginataang kalabasa">
+                </div>
+              </div>
+            </div>
+
+            <!-- Snacks & Desserts -->
+            <div class="meal-block">
+              <div class="meal-block-header">
+                <span class="meal-title">🥪 Snacks & Desserts (Panghimagas)</span>
+              </div>
+              <div class="meal-block-body">
+                <div class="form-group">
+                  <label>Select Items:</label>
+                  <select id="snackItems" class="form-control food-multiselect" multiple size="3">
+                    <!-- Options populated from API -->
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Custom Snacks:</label>
+                  <input type="text" id="snackCustom" class="form-control" placeholder="e.g., chicharon, fruit salad, biscuits">
+                </div>
+              </div>
+            </div>
+
+            <!-- Beverages -->
+            <div class="meal-block">
+              <div class="meal-block-header">
+                <span class="meal-title">🥤 Beverages (Ilimnon)</span>
+              </div>
+              <div class="meal-block-body">
+                <div class="form-group">
+                  <label>Select Beverages:</label>
+                  <select id="beverageItems" class="form-control food-multiselect" multiple size="3">
+                    <!-- Options populated from API -->
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Seasonings & Condiments Checklist -->
+            <div class="meal-block">
+              <div class="meal-block-header">
+                <span class="meal-title">🧂 Seasonings & Sauces Used (Panimpla)</span>
+              </div>
+              <div class="meal-block-body">
+                <div class="checkbox-grid" id="seasoningCheckboxes">
+                  <label class="check-item"><input type="checkbox" name="seasonings" value="garlic_onion_ginger" checked> Garlic, Onion, Ginger (Ahos, Bombay, Luy-a)</label>
+                  <label class="check-item"><input type="checkbox" name="seasonings" value="soy_sauce_patis"> Soy Sauce (Toyo) / Fish Sauce (Patis)</label>
+                  <label class="check-item"><input type="checkbox" name="seasonings" value="bagoong_shrimp_paste"> Bagoong / Ginamos / Shrimp Paste</label>
+                  <label class="check-item"><input type="checkbox" name="seasonings" value="msg_magic_sarap"> MSG / Vetsin / Magic Sarap / Broth Cubes</label>
+                  <label class="check-item"><input type="checkbox" name="seasonings" value="catsup_ketchup"> Ketchup / Tomato Sauce</label>
+                  <label class="check-item"><input type="checkbox" name="seasonings" value="salt_substitute"> Salt Substitute (Potassium Chloride)</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quantitative Clinical Trackers -->
+            <div class="meal-block">
+              <div class="meal-block-header">
+                <span class="meal-title">📊 Clinical Frequency & Intake Trackers</span>
+              </div>
+              <div class="meal-block-body">
+                <div class="trackers-grid">
+                  <div class="tracker-item">
+                    <label for="waterLiters">Water Intake (Liters/day):</label>
+                    <input type="number" id="waterLiters" class="form-control" step="0.1" min="0" max="10" value="2.5">
+                    <span class="tracker-hint">Target: 2-3 Liters (DOGH Low Purine)</span>
+                  </div>
+                  <div class="tracker-item">
+                    <label for="weeklyEggs">Weekly Whole Eggs:</label>
+                    <input type="number" id="weeklyEggs" class="form-control" min="0" max="30" value="2">
+                    <span class="tracker-hint">Limit: Max 3/week (DOGH Low Salt)</span>
+                  </div>
+                  <div class="tracker-item">
+                    <label for="meatServings">Daily Meat Servings:</label>
+                    <input type="number" id="meatServings" class="form-control" min="0" max="15" value="2">
+                    <span class="tracker-hint">Limit: Max 3/day (DOGH Low Purine)</span>
+                  </div>
+                  <div class="tracker-item">
+                    <label for="coffeeCups">Coffee / Tea Cups/day:</label>
+                    <input type="number" id="coffeeCups" class="form-control" min="0" max="10" value="1">
+                    <span class="tracker-hint">Limit: Max 2 cups/day (DOGH Low Purine)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Submit Validation Button -->
+          <div class="submit-wrap">
+            <button type="submit" id="validateBtn" class="btn btn-primary btn-block btn-lg">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              Run Policy Compliance Validation
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Right Column: Audit Results & Compliance Dashboard -->
+      <section class="results-card" id="resultsSection">
+        <div class="results-header">
+          <h2>3. Clinical Compliance Audit Report</h2>
+          <span class="timestamp" id="auditTimestamp">Awaiting evaluation...</span>
+        </div>
+
+        <div id="resultsPlaceholder" class="placeholder-state">
+          <div class="placeholder-icon">📋</div>
+          <h3>No Meal Plan Validated Yet</h3>
+          <p>Select a dietary policy on top, customize the meals, and click <strong>"Run Policy Compliance Validation"</strong> or test a sample plan to view institutional compliance findings.</p>
+        </div>
+
+        <div id="resultsContent" class="results-content d-none">
+          
+          <!-- Score Gauge & Status Banner -->
+          <div class="score-banner" id="scoreBanner">
+            <div class="score-circle">
+              <span class="score-number" id="scoreNumber">100%</span>
+              <span class="score-caption">Compliance</span>
+            </div>
+            <div class="score-info">
+              <div class="status-badge" id="statusBadge">COMPLIANT</div>
+              <h3 id="patientAuditTitle">Patient Evaluation</h3>
+              <p class="summary-text" id="auditSummaryText"></p>
+            </div>
+          </div>
+
+          <!-- Section: Critical Violations -->
+          <div class="audit-group" id="violationsGroup">
+            <h4 class="audit-group-title text-danger">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="15" y1="9" x2="9" y2="15"></line>
+                <line x1="9" y1="9" x2="15" y2="15"></line>
+              </svg>
+              Critical Policy Violations (<span id="violationsCount">0</span>)
+            </h4>
+            <div class="alert-list" id="violationsList"></div>
+          </div>
+
+          <!-- Section: Warnings & Cautions -->
+          <div class="audit-group" id="warningsGroup">
+            <h4 class="audit-group-title text-warning">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+              Clinical Warnings & Frequency Cautions (<span id="warningsCount">0</span>)
+            </h4>
+            <div class="alert-list" id="warningsList"></div>
+          </div>
+
+          <!-- Section: Recommended Healthy Substitutions -->
+          <div class="audit-group" id="substitutionsGroup">
+            <h4 class="audit-group-title text-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+              </svg>
+              Dietitian Recommended Substitutions
+            </h4>
+            <div class="substitutions-table-wrap">
+              <table class="table substitutions-table" id="substitutionsTable">
+                <thead>
+                  <tr>
+                    <th>Violated Item</th>
+                    <th>Approved Healthy Replacement</th>
+                    <th>Clinical Rationale</th>
+                  </tr>
+                </thead>
+                <tbody id="substitutionsBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section: Compliant Items Highlights -->
+          <div class="audit-group" id="compliantGroup">
+            <h4 class="audit-group-title text-success">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              Compliant Food Choices
+            </h4>
+            <div class="pill-tags-wrap" id="compliantPills"></div>
+          </div>
+
+          <!-- Section: Official Hospital Guidelines (Mga Pahimangno) -->
+          <div class="audit-group" id="guidelinesGroup">
+            <h4 class="audit-group-title text-secondary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              Hospital Manual Guidelines (Mga Pahimangno sa Ospital)
+            </h4>
+            <div class="guidelines-card" id="guidelinesContent"></div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>Davao Occidental General Hospital Dietary Services | Codified National & Institutional Meal Validation Engine</p>
+  </footer>
+
+  <!-- Pure Client-Side Engine for GitHub Pages & Offline Support -->
+  <script src="engine/rules.js"></script>
+  <script src="engine/foodDatabase.js"></script>
+  <script src="samplePlans.js"></script>
+  <script src="engine/validator.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

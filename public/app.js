@@ -1,5 +1,5 @@
 /**
- * Client-Side Application Logic
+ * Client-Side Application Logic (Dual-Mode: Static GitHub Pages & Express API)
  * Dietary Compliance Validation Engine
  */
 
@@ -7,6 +7,9 @@ let allPolicies = [];
 let allFoods = [];
 let samplePlans = [];
 let selectedPolicies = ['low-salt']; // Default selected policy
+
+// Detect if running in pure static/GitHub Pages mode or with active backend API
+const isStaticMode = (typeof window.DietaryValidator !== 'undefined');
 
 document.addEventListener('DOMContentLoaded', async () => {
   await loadInitialData();
@@ -16,19 +19,27 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 /**
- * Fetch Policies, Foods, and Sample Plans from Express Backend
+ * Fetch or Load Policies, Foods, and Sample Plans
  */
 async function loadInitialData() {
   try {
-    const [policiesRes, foodsRes, samplesRes] = await Promise.all([
-      fetch('/api/policies').then(r => r.json()),
-      fetch('/api/foods').then(r => r.json()),
-      fetch('/api/sample-plans').then(r => r.json())
-    ]);
+    if (isStaticMode && window.DIETARY_RULES && window.FOOD_DATA && window.SAMPLE_DATA) {
+      // Pure client-side static mode (GitHub Pages)
+      allPolicies = Object.values(window.DIETARY_RULES.DIETARY_POLICIES);
+      allFoods = window.FOOD_DATA.FOOD_DATABASE;
+      samplePlans = Object.values(window.SAMPLE_DATA.SAMPLE_PLANS);
+    } else {
+      // Backend Express API mode
+      const [policiesRes, foodsRes, samplesRes] = await Promise.all([
+        fetch('/api/policies').then(r => r.json()),
+        fetch('/api/foods').then(r => r.json()),
+        fetch('/api/sample-plans').then(r => r.json())
+      ]);
 
-    allPolicies = policiesRes.policies || [];
-    allFoods = foodsRes.foods || [];
-    samplePlans = samplesRes.samples || [];
+      allPolicies = policiesRes.policies || [];
+      allFoods = foodsRes.foods || [];
+      samplePlans = samplesRes.samples || [];
+    }
 
     renderPolicyCards();
     renderFoodDropdowns();
@@ -63,7 +74,6 @@ function renderPolicyCards() {
     `;
 
     card.addEventListener('click', (e) => {
-      // Toggle card checkbox
       const checkbox = card.querySelector('.policy-checkbox');
       if (e.target !== checkbox) {
         checkbox.checked = !checkbox.checked;
@@ -94,7 +104,6 @@ function updateSelectedPolicies() {
   });
 
   if (selectedPolicies.length === 0) {
-    // Default to at least one
     selectedPolicies = ['low-salt'];
     const defaultCb = document.querySelector(`.policy-checkbox[value="low-salt"]`);
     if (defaultCb) defaultCb.checked = true;
@@ -162,11 +171,17 @@ function renderQuickTestButtons() {
  */
 async function loadSamplePlan(planId) {
   try {
-    const res = await fetch(`/api/sample-plans/${planId}`);
-    const data = await res.json();
-    if (!data.plan) return;
+    let plan = null;
 
-    const plan = data.plan;
+    if (isStaticMode && window.SAMPLE_DATA) {
+      plan = window.SAMPLE_DATA.SAMPLE_PLANS[planId];
+    } else {
+      const res = await fetch(`/api/sample-plans/${planId}`);
+      const data = await res.json();
+      plan = data.plan;
+    }
+
+    if (!plan) return;
 
     // Set target policy
     selectedPolicies = [plan.policyId];
@@ -304,17 +319,24 @@ async function triggerValidation() {
   };
 
   try {
-    const res = await fetch('/api/validate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    const result = await res.json();
-    if (result.status === 'success' && result.data) {
-      renderValidationReport(result.data);
+    if (isStaticMode && window.DietaryValidator) {
+      // In-browser static execution (GitHub Pages mode)
+      const auditResult = window.DietaryValidator.validateMealPlan(payload, selectedPolicies);
+      renderValidationReport(auditResult);
     } else {
-      alert('Validation Error: ' + (result.message || 'Unknown error'));
+      // Backend Express API mode
+      const res = await fetch('/api/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await res.json();
+      if (result.status === 'success' && result.data) {
+        renderValidationReport(result.data);
+      } else {
+        alert('Validation Error: ' + (result.message || 'Unknown error'));
+      }
     }
   } catch (error) {
     console.error('Validation request failed:', error);
@@ -427,7 +449,6 @@ function renderValidationReport(audit) {
     compliantGroup.classList.add('d-none');
   } else {
     compliantGroup.classList.remove('d-none');
-    // Unique items
     const uniqueApproved = Array.from(new Set(audit.compliantHighlights.map(h => h.item)));
     uniqueApproved.forEach(itemName => {
       const pill = document.createElement('span');
